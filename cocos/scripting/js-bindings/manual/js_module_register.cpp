@@ -1,7 +1,5 @@
-#ifndef __JS_TEMPLATE_RUNTIME_FRAMEWORKS_RUNTIME_SRC_CLASSES_JS_MODULE_REGISTER_H__
-#define __JS_TEMPLATE_RUNTIME_FRAMEWORKS_RUNTIME_SRC_CLASSES_JS_MODULE_REGISTER_H__
+#include "js_module_register.h"
 
-#include "scripting/js-bindings/manual/ScriptingCore.h"
 #include "jsb_cocos2dx_auto.hpp"
 #include "jsb_cocos2dx_ui_auto.hpp"
 #include "jsb_cocos2dx_studio_auto.hpp"
@@ -102,7 +100,7 @@ int js_module_register()
     sc->addRegisterCallback(register_all_cocos2dx_navmesh_manual);
 #endif
 
-#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS)
+#if (CC_TARGET_PLATFORM == CC_PLATFORM_ANDROID || CC_TARGET_PLATFORM == CC_PLATFORM_IOS) && !defined(CC_TARGET_OS_TVOS)
     sc->addRegisterCallback(register_all_cocos2dx_experimental_video);
     sc->addRegisterCallback(register_all_cocos2dx_experimental_video_manual);
     sc->addRegisterCallback(register_all_cocos2dx_experimental_webView);
@@ -121,5 +119,8 @@ int js_module_register()
     return 1;
 }
 
-#endif  // __JS_TEMPLATE_RUNTIME_FRAMEWORKS_RUNTIME_SRC_CLASSES_JS_MODULE_REGISTER_H__
-
+JS::HandleObject get_jsb_cocos2d_FileUtils_prototype()
+{
+    JS::RootedObject fileUtilsProto(ScriptingCore::getInstance()->getGlobalContext(), jsb_cocos2d_FileUtils_prototype);
+    return fileUtilsProto;
+}
